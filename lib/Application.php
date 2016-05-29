@@ -12,12 +12,11 @@ class Application{
     public      $router;
 
     protected   $currentController;
+
     public function __construct($app_name = "Picon"){
         $this->config   =   new Config(); 
         $this->router   =   new Router();
-
         $route_infos    =   $this->router->route();
-        //$this->currentController    =  $route_infos["controller"]; 
     }
 
 }

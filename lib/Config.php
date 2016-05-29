@@ -18,6 +18,7 @@ class Config{
         self::$config_array["ROOT"]         =   realpath(__DIR__) . "/../";
         self::$config_array["LIB_DIR"]      =   realpath(__DIR__) . "/../lib";
         self::$config_array["APP_DIR"]      =   realpath(__DIR__) . "/../app";
+        self::$config_array["ROUTE_DIR"]    =   self::$config_array["APP_DIR"]  . "/routes";
     }
 
     public static function get_value(...$levels){
