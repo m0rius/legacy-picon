@@ -1,0 +1,4 @@
+**/*.swp
+app/**/controllers/*.php
+app/**/models/*.php
+app/**/views/**/*.php
