@@ -31,8 +31,10 @@ class Error{
         die($ex);
     }
 
-    public function ErrorHandler(){
-
+    public function ErrorHandler($errno, $errstr){
+        //TODO : replace this
+        http_response_code(500);
+        die($errno . " :: " . $errstr);
     }
 
 }
