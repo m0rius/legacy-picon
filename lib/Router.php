@@ -29,15 +29,14 @@ class Router{
                 $params             =   array();
                 $unhandled_params   =   array();
 
-                $paramsUri          =   (isset($ruleSet["params"]) && $ruleSet["params"])
-                                        ?   explode("/", trim(substr($contentUri, strlen($ruleSet["pattern"])), "/"))
+                $paramsUriString    =   trim(substr($contentUri, strlen($ruleSet["pattern"])), "/");
+                $paramsUri          =   (isset($ruleSet["params"]) && $ruleSet["params"] && $paramsUriString)
+                                        ?   explode("/", $paramsUriString)
                                         :   array();
 
 
                 foreach($ruleSet["params"] as $number => $param){
-                    $params[$param] =   (isset($paramsUri[$number]))
-                                            ?   $paramsUri[$number]
-                                            :   "";
+                    isset($paramsUri[$number]) && $params[$param] =   $paramsUri[$number];
                 }
 
                 count($paramsUri) > count($ruleSet["params"]) && $unhandled_params =   array_chunk($paramsUri, (count($paramsUri) - count($params)), true)[1];
