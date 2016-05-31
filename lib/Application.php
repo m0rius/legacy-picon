@@ -2,9 +2,6 @@
 
 namespace Picon\Lib;
 
-use Picon\Lib\Config    as Config;
-use Picon\Lib\Router    as Router;
-use Picon\Lib\Error     as Error;
 
 class Application{
 
@@ -12,18 +9,25 @@ class Application{
     public      $router;
     public      $error;
 
-    protected   $currentController;
+    private     $controller;
+    protected   $currentRouteInfos;
 
     public function __construct($app_name = "Picon"){
-        $this->config   =   new Config(); 
-        $this->router   =   new Router();
-        $this->error    =   new Error();
-        $route_infos    =   $this->router->route();
-        if($route_infos["controller"]   == "_error_")
-            throw new HttpException(404, $route_infos);
+        $this->config               =   new Config(); 
+        $this->router               =   new Router();
+        $this->error                =   new Error();
+        $this->currentRouteInfos    =   $this->router->route();
+        if($this->currentRouteInfos["controller"]   == "_error_")
+            throw new HttpException(404, $this->currentRouteInfos);
+        $this->callControllerAction();
+        $this->callView();
     }
 
     public function callControllerAction(){
+        $controller =   "Controllers\\" . ucfirst($this->currentRouteInfos["controller"]) . "Controller";
+        $action     =   ucfirst($this->currentRouteInfos["action"]) . "Action";   
+        $this->controller   =   new $controller($this->currentRouteInfos, $this->config);
+        call_user_func_array(array($this->controller, $action), $this->currentRouteInfos["params"]);
 
     }
 
