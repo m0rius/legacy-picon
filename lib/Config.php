@@ -19,6 +19,9 @@ class Config{
         self::$config_array["LIB_DIR"]      =   realpath(__DIR__) . "/../lib";
         self::$config_array["APP_DIR"]      =   realpath(__DIR__) . "/../app";
         self::$config_array["ROUTE_DIR"]    =   self::$config_array["APP_DIR"]  . "/routes";
+        self::$config_array["VIEW_DIR"]     =   self::$config_array["APP_DIR"]  . "/views"; 
+        self::$config_array["CTRL_DIR"]     =   self::$config_array["APP_DIR"]  . "/controllers"; 
+        self::$config_array["MODL_DIR"]     =   self::$config_array["APP_DIR"]  . "/models"; 
     }
 
     public static function get_value(...$levels){

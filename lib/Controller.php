@@ -5,15 +5,15 @@ namespace Picon\Lib;
 class Controller{
 
     protected   $route;
-    protected   $config;
     protected   $layout;
+    protected   $view;
     protected   $viewVars;
 
-    public function __construct($route, $config){
-        $this->config   =   $config;
+    public function __construct($route){
         $this->route    =   $route;
-        $this->layout   =   "default";
         $this->viewVars =   array();
+        $this->setView();
+        $this->setLayout();
     }
 
     public function pre_action(){
@@ -26,11 +26,36 @@ class Controller{
 
     public function set(...$vars){
         $this->viewVars =   array_merge($this->viewVars, $vars);
-
     }
+
+    public function setView($viewName   =   null, $viewDir = ""){
+        !isset($viewName)   && $viewName    =   $this->route["action"]; 
+        !$viewDir           && $viewDir     =   $this->route["controller"];
+        $this->view =   !$viewName  ? "" : strtolower($viewDir . "/" . $viewName); 
+    
+    }
+
+    public function setLayout($layout = null){ 
+        !isset($layout) &&  $layout =   "default";
+        !$this->view    &&  $layout =   "";
+        $this->layout   =   $layout;
+    }
+
 
     public function getViewVars(){
         return $this->viewVars;
+    }
+
+
+    public function getViewInfos(){
+        echo "<pre> VIEW INFOS : <br/>" . print_r(array(
+            "view"      =>  $this->view,
+            "layout"    =>  $this->layout
+        ), true) . "</pre>";
+        return array(
+            "view"      =>  $this->view,
+            "layout"    =>  $this->layout
+        );
     }
 
     public function _call_action($action){

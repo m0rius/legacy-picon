@@ -10,19 +10,24 @@ class Application{
     public      $error;
 
     private     $controller;
+    private     $view;
     protected   $currentRouteInfos;
 
     public function __construct($app_name = "Picon"){
+        // Bootstraping main services
         $this->config               =   new Config(); 
         $this->router               =   new Router();
         $this->error                =   new Error();
+
+        // Get route infos 
         $this->currentRouteInfos    =   $this->router->route();
         if($this->currentRouteInfos["controller"]   == "_error_")
             throw new HttpException(404, $this->currentRouteInfos);
-        ob_start();
+
+        //ob_start();
         $this->callControllerAction();
         $this->callView();
-        ob_end_flush();
+        //ob_end_flush();
     }
 
     public function callControllerAction(){
@@ -33,7 +38,8 @@ class Application{
     }
 
     public function callView(){
-
+        $this->view =   new View($this->controller->getViewInfos(), $this->controller->getViewVars());
+        $this->view->render();
     }
 
 }
