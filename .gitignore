@@ -1,6 +1,3 @@
 **/*.swp
 app/
-web/html/
-web/img/
-web/js/
-web/css/
+web/assets/
