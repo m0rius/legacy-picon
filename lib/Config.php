@@ -7,10 +7,8 @@ class Config{
     public static $config_array;
 
     public function __construct($config_name = "default", $config_overload =   array()){
-        $config                 =   parse_ini_file(realpath(__DIR__) . "/../app/configs/" . $config_name . ".ini", true);
-        self::$config_array     =   ($config_overload) 
-                                        ?   array_merge($config,$config_overload)
-                                        :   $config;
+        $this->loadFromConfigFiles(); 
+        $config_overload && self::$config_array = array_merge(self::$config_array,$config_overload);
         $this->populate_config();
     }
 
@@ -22,6 +20,20 @@ class Config{
         self::$config_array["VIEW_DIR"]     =   self::$config_array["APP_DIR"]  . "/views"; 
         self::$config_array["CTRL_DIR"]     =   self::$config_array["APP_DIR"]  . "/controllers"; 
         self::$config_array["MODL_DIR"]     =   self::$config_array["APP_DIR"]  . "/models"; 
+    }
+
+    private function loadFromConfigFiles($setClassAttribute = true){
+       $configEntries   =   array(); 
+       $configDir       =   realpath(__DIR__) . "/../app/configs";
+       $content         =   scandir($configDir, SCANDIR_SORT_DESCENDING);
+       foreach($content as $f){
+            $fPath  =   $configDir  . "/" . $f;
+            if(is_file($fPath) && preg_match("/\.ini$/", $f)){
+                $configEntries = array_merge(parse_ini_file($fPath, true), $configEntries);
+            }
+       }
+        $setClassAttribute && self::$config_array = $configEntries;  
+        return $configEntries;
     }
 
     public static function get_value(...$levels){
