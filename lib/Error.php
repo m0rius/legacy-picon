@@ -21,14 +21,17 @@ class Error{
     }
 
     public function ExceptionHandler( $ex ){
-        $class  =   get_class($ex);
-        if($class == "Picon\Lib\HttpException"){
-            http_response_code($ex->http_code);
-        }
-        else{
+        $class          =   get_class($ex);
+        $httpErrorCode  =   ($class == "Picon\Lib\HttpException") ? $ex->http_code : 500;
+
+        try{
+            http_response_code($httpErrorCode);
+            $errorApp   =   new Application("__error__", "__error__");
+        } catch (Exception $e){
             http_response_code(500);
+            die();
         }
-        die($ex);
+
     }
 
     public function ErrorHandler($errno, $errstr){

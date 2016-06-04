@@ -13,10 +13,10 @@ class Application{
     private     $view;
     protected   $currentRouteInfos;
 
-    public function __construct($app_name = "Picon"){
+    public function __construct($app_name = "Picon", $mode = ""){
         // Bootstraping main services
         $this->config               =   new Config(); 
-        $this->router               =   new Router();
+        $this->router               =   new Router($mode);
         $this->error                =   new Error();
 
         // Get route infos 

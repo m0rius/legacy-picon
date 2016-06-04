@@ -8,11 +8,15 @@ class Router{
 
     public  $routesRules;
     
-    public function __construct(){
-        $this->loadRules();
+    public function __construct($mode = ""){
+        if(!$mode){
+            $this->loadRules();
+        } else if ($mode === "__error__"){
+            $this->loadErrorRules();
+        }
     }
 
-    public function route(){
+    public function route($app_name = ""){
         $route  =   array();
 
         $contentUri     =   $_SERVER["REQUEST_URI"];
@@ -67,9 +71,13 @@ class Router{
         return $route;
     }
 
-    public function loadRules($setClassAttribute = true){
+    public function loadErrorRules(){
+        $this->loadRules(true, "/errors");
+    }
+
+    public function loadRules($setClassAttribute = true, $routeSubDir =""){
         $routesRules    =   array();
-        $routesDir      =   Config::get_value("ROUTE_DIR");
+        $routesDir      =   Config::get_value("ROUTE_DIR").$routeSubDir;
         $content        =   scandir($routesDir, SCANDIR_SORT_DESCENDING);
         foreach($content as $f){
             $fPath  =   $routesDir . "/" . $f;
