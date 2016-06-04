@@ -48,10 +48,6 @@ class Controller{
 
 
     public function getViewInfos(){
-        echo "<pre> VIEW INFOS : <br/>" . print_r(array(
-            "view"      =>  $this->view,
-            "layout"    =>  $this->layout
-        ), true) . "</pre>";
         return array(
             "view"      =>  $this->view,
             "layout"    =>  $this->layout
