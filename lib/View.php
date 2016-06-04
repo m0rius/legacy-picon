@@ -27,13 +27,13 @@ class View{
 
     public function render($view = ""){
         // Here we render view && layout
-        !$view && $this->view && $view = $this->view;
         if(!$view && $this->layout && !$this->isRenderedLayout){
-            $this->render("_layout/" . $this->layout);
             $this->isRenderedLayout =   true;
+            $this->render("_layout/" . $this->layout);
             return true;
         }
-        else if($view) {
+        !$view && $this->view && $view = $this->view;
+        if($view) {
            require Config::get_value("VIEW_DIR") . "/" . $view . ".phtml"; 
            return true;
         }
