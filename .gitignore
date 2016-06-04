@@ -1,4 +1,6 @@
 **/*.swp
-app/**/controllers/*.php
-app/**/models/*.php
-app/**/views/**/*.php
+app/
+web/html/
+web/img/
+web/js/
+web/css/
