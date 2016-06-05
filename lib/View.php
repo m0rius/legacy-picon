@@ -14,6 +14,7 @@ class View{
         $this->layout           =   $viewInfos["layout"]; 
         $this->view             =   $viewInfos["view"];
         $this->vars             =   $vars;
+        $this->loadVars();
         $this->isRenderedLayout = false;
     }
 
