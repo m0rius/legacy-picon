@@ -11,20 +11,21 @@ class Controller{
 
     public function __construct($route){
         $this->route    =   $route;
+        $this->security =   new Security();
         $this->viewVars =   array();
         $this->setView();
         $this->setLayout();
     }
 
     public function pre_action(){
-
+        $this->security->check();
     }
 
     public function post_action(){
 
     }
 
-    public function set(...$vars){
+    public function set($vars){
         $this->viewVars =   array_merge($this->viewVars, $vars);
     }
 
@@ -58,6 +59,11 @@ class Controller{
         call_user_func(array($this, "pre_action"));
         call_user_func_array(array($this, $action), $this->route["params"]);
         call_user_func(array($this, "post_action"));
+    }
+
+    public function redirect($uri){
+        http_response_code(302);
+        header("Location: " . $uri);
     }
 
 }
