@@ -52,4 +52,16 @@ class Security{
         return true;
     }
 
+    public function isLoggedIn(){
+        return isset($_SESSION["security"]["loggedin"])
+                    ?   $_SESSION["security"]["loggedin"]
+                    :   false;
+    }
+
+    public function getAuthLevel(){
+        return isset($_SESSION["security"]["level"])
+                    ?   $_SESSION["security"]["level"]
+                    :   false;
+    }
+
 }
