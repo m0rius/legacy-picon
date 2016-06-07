@@ -8,6 +8,9 @@ class View{
     protected   $view;
     protected   $vars;
 
+    protected   $_messages;
+    protected   $_errors;
+
     protected   $isRenderedLayout;
 
     public function __construct($viewInfos, $vars = array()){
@@ -15,6 +18,8 @@ class View{
         $this->view             =   $viewInfos["view"];
         $this->vars             =   $vars;
         $this->loadVars();
+        $this->loadMessages();
+        $this->loadErrors();
         $this->isRenderedLayout = false;
     }
 
@@ -24,6 +29,36 @@ class View{
 
     public function setLayout($layoutName){
         $this->layout   =   $layoutName;
+    }
+
+    public function loadMessages(){
+        $this->_messages        =   array();
+        $updatedArray           =   array();
+        !isset($_SESSION["voice"]["messages"]) && $_SESSION["voice"]["messages"] = array();
+        foreach($_SESSION["voice"]["messages"] as $message){
+            $this->_messages[]    =   $message["msg"];
+            $message["timeleft"]    -= 1;
+            if($message["timeleft"]){
+               $updatedArray[]  =   $message;  
+            };
+        }
+        $_SESSION["voice"]["messages"]    =   $updatedArray;
+    }
+
+    public function loadErrors(){
+        $this->_errors          =   array();
+        $updatedArray           =   array();
+        !isset($_SESSION["voice"]["errors"]) && $_SESSION["voice"]["errors"] = array();
+        foreach($_SESSION["voice"]["errors"] as $level => $levelGroup){
+            foreach($levelGroup as $error){ 
+                $this->_errors[$level][]    =   $error["msg"];
+                $error["timeleft"]  -= 1;
+                if($error["timeleft"]){
+                   $updatedArray[$level][]  =   $error;  
+                };
+            }
+        }
+        $_SESSION["voice"]["errors"] = $updatedArray;
     }
 
     public function render($view = ""){

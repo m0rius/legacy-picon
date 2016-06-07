@@ -10,9 +10,9 @@ class Controller{
     protected   $viewVars;
 
     public function __construct($route){
-        $this->route    =   $route;
-        $this->security =   new Security();
-        $this->viewVars =   array();
+        $this->route        =   $route;
+        $this->security     =   new Security();
+        $this->viewVars     =   array();
         $this->setView();
         $this->setLayout();
     }
@@ -26,7 +26,27 @@ class Controller{
     }
 
     public function set($vars){
-        $this->viewVars =   array_merge($this->viewVars, $vars);
+        $this->viewVars     =   array_merge($this->viewVars, $vars);
+    }
+
+    public function sendViewError($error_message, $level = 1, $duration = 1){
+        if($duration <= 0)
+            return false;
+        $_SESSION["voice"]["errors"][$level][]   =   array(
+                                                            "msg"       =>  $error_message, 
+                                                            "timeleft"  =>  $duration
+                                                        );
+        return true;
+    }
+
+    public function sendViewMessage($message, $duration = 1){
+        if($duration <= 0)
+            return false;
+        $_SESSION["voice"]["messages"][]   =   array(
+                                                        "msg"       =>  $message, 
+                                                        "timeleft"  =>  $duration
+                                                    );
+        return true;
     }
 
     public function setView($viewName   =   null, $viewDir = ""){
