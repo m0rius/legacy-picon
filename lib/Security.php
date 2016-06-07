@@ -27,9 +27,10 @@ class Security{
         }
     }
 
-    public function setSessionInfos($level, $pseudo, $pass){
+    public function setSessionInfos($id, $level, $pseudo, $pass){
         $_SESSION["security"]["loggedin"]   =   true;
         $_SESSION["security"]["level"]      =   $level;
+        $_SESSION["user"]["id"]             =   $id;
         $_SESSION["user"]["pseudo"]         =   $pseudo;
         $_SESSION["user"]["pass"]           =   $pass; 
     }
@@ -37,6 +38,7 @@ class Security{
     public function unsetSessionInfos(){
         $_SESSION["security"]["loggedin"]   =   false;
         unset($_SESSION["security"]["level"]); 
+        unset($_SESSION["user"]["id"]);    
         unset($_SESSION["user"]["pseudo"]);    
         unset($_SESSION["user"]["pass"]);       
     }
