@@ -1,3 +1,4 @@
 **/*.swp
 app/
 web/assets/
+storage/
