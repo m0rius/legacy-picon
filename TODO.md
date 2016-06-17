@@ -22,5 +22,7 @@ Revoir logo & maquettage (cocoadaemon)
 
 Integrer phpunit
 
+Revoir gestion des erreurs
+
 
     
