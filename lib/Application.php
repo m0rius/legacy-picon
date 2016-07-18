@@ -31,7 +31,7 @@ class Application{
     }
 
     public function callControllerAction(){
-        $controller =   "Controllers\\" . ucfirst($this->currentRouteInfos["controller"]) . "Controller";
+        $controller =   "App\\Controllers\\" . ucfirst($this->currentRouteInfos["controller"]) . "Controller";
         $action     =   ucfirst($this->currentRouteInfos["action"]) . "Action";   
         $this->controller   =   new $controller($this->currentRouteInfos, $this->config);
         $this->controller->_call_action($action);

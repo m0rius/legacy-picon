@@ -1,5 +1,7 @@
 <?php
 
+$loader = require __DIR__ . '/../vendor/autoload.php';
+/*
 spl_autoload_register(function($class){
     $directories        =   explode("\\" , $class);
     $sourceDirectory    =   realpath(__DIR__) . "/../";  
@@ -18,3 +20,5 @@ spl_autoload_register(function($class){
 
     include $sourceDirectory . implode("/", $directories) . ".php"; 
 });
+
+*/
