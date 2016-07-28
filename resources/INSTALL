@@ -3,7 +3,7 @@
 <?php
 
 $target         =   realpath(getcwd());
-$version        =   "dev";
+$version        =   "@dev";
 $repository     =   array(
                         "type"  =>  "vcs",
                         "url"   =>  "https://github.com/zadochob/picon"
@@ -62,5 +62,8 @@ if($ret){
 }
 
 echo "[x] Deploying static files...";
-copy($vendorDir . "/resources/static/", $target . "/");
+system("cp -R " .$vendorDir . "/resources/static/* ". $target . "/", $ret);
+if($ret){
+    echo "Couldn't cp static files into your project dir (i.e. moving " .$vendorDir . "/resources/static/* into ". $target . "/\n";
+}
 echo "Done\n";
