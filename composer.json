@@ -3,7 +3,6 @@
     "description": "The lost PHP framework",
     "type": "library",
     "license": "MIT",
-    "version" : "dev",
     "authors": [
         {
             "name": "zadochob",
