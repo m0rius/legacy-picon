@@ -1,0 +1,66 @@
+#!/usr/bin/env php
+
+<?php
+
+$target         =   realpath(getcwd());
+$version        =   "dev";
+$repository     =   array(
+                        "type"  =>  "vcs",
+                        "url"   =>  "https://github.com/zadochob/picon"
+                    );
+
+function confirm($msg = null, $exit = true){
+    !isset($msg) && $msg = "Are you sure you want to proceed ? [y/n] : ";
+    $toReturn   =   true;
+    if(!in_array(strtolower(trim(userInput($msg))), array('yes', 'y', 'ok'))){
+        if($exit){
+            echo "\nAborting!\n";
+            exit(0);
+        }
+        $toReturn   =   false;
+    }
+    return $toReturn;
+}
+
+function userInput($msg = null){
+    !isset($msg) && $msg = "Are you sure you want to proceed ? [y/n] : ";
+    echo $msg;
+    return trim(fgets(fopen("php://stdin", "r")));
+}
+
+if(!confirm("Is ".$target." your project directory ? [y/n] : ", false)){
+    $target = userInput("Please enter your project directory : ");
+}
+
+$vendorDir      =   $target . "/vendor/zadochob/picon/";
+$composerFile   =   $target . "/composer.json";
+
+exec("which composer", $output, $ret);
+if(!(is_file($composerFile) && $output && !$ret)){
+    echo "No composer.json in given directory or composer binary\n";
+    echo "Aborting!\n";
+    exit(1);
+}
+
+echo "[x] Adding picon repos to composer.json... ";
+$content    =   json_decode(file_get_contents($composerFile), true);
+
+!isset($content["require"]) && $content["require"]  =   array();
+$content["require"]["zadochob/picon"]   =   $version;
+
+!isset($content["repositories"]) && $content["repositories"]  =   array();
+$content["repositories"]["zadochob/picon"]   =   $repository;
+
+file_put_contents($composerFile, json_encode($content, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT)); 
+echo "Done\n";
+
+echo "[x] Executing composer install\n";
+system("composer install", $ret);
+if($ret){
+    echo "Aborting picon installation!\n";
+    exit($ret);
+}
+
+echo "[x] Deploying static files...";
+copy($vendorDir . "/resources/static/", $target . "/");
+echo "Done\n";

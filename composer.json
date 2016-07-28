@@ -1,8 +1,9 @@
 {
     "name": "zadochob/picon",
     "description": "The lost PHP framework",
-    "type": "project",
+    "type": "library",
     "license": "MIT",
+    "version" : "dev",
     "authors": [
         {
             "name": "zadochob",
@@ -13,11 +14,11 @@
             "phpunit/phpunit": "5.4.*"
     },
     "autoload"  :   {
-        "psr-4" :   {
-            "Picon\\Lib\\" : "lib/",
-            "App\\Controllers\\" : "app/controllers/",
-            "App\\Models\\" : "app/models/"
-        }
+            "psr-4" :   {
+                "Picon\\Lib\\"          : "lib/",
+                "App\\Controllers\\"    : "app/controllers/",
+                "App\\Models\\"         : "app/models/"
+            }
     },
     "require": {}
 }
