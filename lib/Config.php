@@ -5,6 +5,9 @@ namespace Picon\Lib;
 class Config{
 
     public static $config_array;
+    
+    const   ROOT_DIR    =   __DIR__ . "/../../../../";
+    const   VEND_DIR    =   __DIR__ . "../";
 
     public function __construct($config_name = "default", $config_overload =   array()){
         $this->loadFromConfigFiles(); 
@@ -13,9 +16,10 @@ class Config{
     }
 
     private function populate_config(){
-        self::$config_array["ROOT"]         =   realpath(__DIR__) . "/../";
-        self::$config_array["LIB_DIR"]      =   realpath(__DIR__) . "/../lib";
-        self::$config_array["APP_DIR"]      =   realpath(__DIR__) . "/../app";
+        self::$config_array["ROOT"]         =   realpath(self::ROOT_DIR); 
+        self::$config_array["LIB_DIR"]      =   realpath(self::VEND_DIR) . "/lib";
+        self::$config_array["APP_DIR"]      =   realpath(self::ROOT_DIR) . "/app";
+        self::$config_array["CONF_DIR"]     =   self::$config_array["APP_DIR"]  . "/configs";
         self::$config_array["ROUTE_DIR"]    =   self::$config_array["APP_DIR"]  . "/routes";
         self::$config_array["VIEW_DIR"]     =   self::$config_array["APP_DIR"]  . "/views"; 
         self::$config_array["CTRL_DIR"]     =   self::$config_array["APP_DIR"]  . "/controllers"; 
@@ -24,7 +28,7 @@ class Config{
 
     private function loadFromConfigFiles($setClassAttribute = true){
        $configEntries   =   array(); 
-       $configDir       =   realpath(__DIR__) . "/../app/configs";
+       $configDir       =   self::$config_array["CONF_DIR"];
        $content         =   scandir($configDir, SCANDIR_SORT_DESCENDING);
        foreach($content as $f){
             $fPath  =   $configDir  . "/" . $f;
