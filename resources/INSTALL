@@ -53,13 +53,10 @@ confirm("We will now install picon lib as composer library, and set up some stuf
 
 echo "[x] Adding picon repos to composer.json... ";
 $content    =   json_decode(file_get_contents($composerFile), true);
-
 !isset($content["require"]) && $content["require"]              =   array();
 $content["require"]["zadochob/picon"]                           =   $version;
-
 !isset($content["repositories"]) && $content["repositories"]    =   array();
 $content["repositories"]["zadochob/picon"]                      =   $repository;
-
 file_put_contents($composerFile, json_encode($content, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT)); 
 echo "Done\n";
 
@@ -70,17 +67,20 @@ if($ret){
     exit($ret);
 }
 
-echo "[x] Adding autoload part to composer.json...\n";
+echo "[x] Adding autoload part to composer.json...";
 $content    =   json_decode(file_get_contents($composerFile), true);
-
 !isset($content["autoload"]) && $content["autoload"]            =   array();
 $content["autoload"]["psr-4"]                                   =   $autoload;
-
 file_put_contents($composerFile, json_encode($content, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT)); 
 echo "Done\n";
 
+echo "[x] Updating autoload files...";
+system("composer dump-autoload", $ret);
+echo "Done\n";
+
 echo "[x] Deploying static files...";
-system("cp -R " .$vendorDir . "/resources/static/* ". $target . "/", $ret);
+system("cp -R " .$vendorDir . "/resources/static/.htaccess ". $target . "/", $ret);
+system("cp -R " .$vendorDir . "/resources/static/web ". $target . "/", $ret);
 if($ret){
     echo "Couldn't cp static files into your project dir (i.e. moving " .$vendorDir . "/resources/static/* into ". $target . "/\n";
 }
