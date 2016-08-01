@@ -2,6 +2,9 @@
 
 <?php
 
+echo "Picon install script\n";
+echo "=========================================================\n\n";
+
 $target         =   realpath(getcwd());
 $version        =   "@dev";
 $repository     =   array(
@@ -41,6 +44,8 @@ if(!(is_file($composerFile) && $output && !$ret)){
     echo "Aborting!\n";
     exit(1);
 }
+
+confirm("We will now install picon lib as composer library, and set up some stuff (see doc for further details).\nDo you want to proceed ? [y/n] :");
 
 echo "[x] Adding picon repos to composer.json... ";
 $content    =   json_decode(file_get_contents($composerFile), true);

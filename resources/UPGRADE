@@ -2,4 +2,7 @@
 
 <?php
 
+echo "Picon upgrade script\n";
+echo "=========================================================\n\n";
 
+echo "No upgrade needed :)!\nAborting ...\n\n";
