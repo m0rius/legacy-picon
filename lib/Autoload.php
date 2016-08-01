@@ -1,6 +1,6 @@
 <?php
 
-$loader = require __DIR__ . '/../vendor/autoload.php';
+$loader = require __DIR__ . '/../../../autoload.php';
 /*
 spl_autoload_register(function($class){
     $directories        =   explode("\\" , $class);
