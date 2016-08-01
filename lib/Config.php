@@ -28,7 +28,7 @@ class Config{
 
     private function loadFromConfigFiles($setClassAttribute = true){
        $configEntries   =   array(); 
-       $configDir       =   self::$config_array["CONF_DIR"];
+       $configDir       =   realpath(self::ROOT_DIR) . "/app/configs";
        $content         =   scandir($configDir, SCANDIR_SORT_DESCENDING);
        foreach($content as $f){
             $fPath  =   $configDir  . "/" . $f;
