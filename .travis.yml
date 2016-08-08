@@ -5,7 +5,7 @@ php:
     -   '7'
 
 before_install :
-    -   sudo apt-get install -y php-mysql
+    -   sudo apt-get install -y php5-mysql
     -   composer self-update
 
 before_script :
