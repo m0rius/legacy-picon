@@ -61,7 +61,7 @@ file_put_contents($composerFile, json_encode($content, JSON_UNESCAPED_SLASHES | 
 echo "Done\n";
 
 echo "[x] Executing composer install\n";
-system("composer install", $ret);
+system("composer install --no-dev", $ret);
 if($ret){
     echo "Aborting picon installation!\n";
     exit($ret);
